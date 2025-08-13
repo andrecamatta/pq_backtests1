@@ -1,0 +1,33 @@
+# Julia
+Manifest.toml
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+deps/deps.jl
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*~
+
+# Cache
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data files (opcional - remover se quiser incluir dados)
+# *.csv
+# *.xlsx
+# data/
+
+# Output files
+plots/
+results/
+output/
