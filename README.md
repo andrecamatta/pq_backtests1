@@ -4,7 +4,7 @@ Framework robusto de backtest quantitativo em Julia com três estratégias imple
 
 ## 📋 Visão Geral
 
-Sistema completo de backtest para estratégias quantitativas com dados reais do mercado brasileiro (2015-2024). Framework modular, estatisticamente sólido e fácil de estender, com controles anti-overfitting e métricas avançadas de performance.
+Sistema completo de backtest para estratégias quantitativas com dados reais do mercado brasileiro. Framework modular, estatisticamente sólido e fácil de estender, com controles anti-overfitting e métricas avançadas de performance.
 
 ## 🚀 Instalação e Execução
 
@@ -32,19 +32,19 @@ julia backtest_otimizado.jl
 - **Lógica**: Crossover de médias móveis com lag adaptativo
 - **Parâmetros**: `fast=[10,20,50]` e `slow=[50,100,200]` dias
 - **Características**: Anti-look-ahead bias, rebalanceamento semestral
-- **Asset**: ^BVSP (2015-2024)
+- **Asset**: ^BVSP (Índice Bovespa)
 
-### 2. 🔄 Pairs Trading (SUZB3/KLBN11)
+### 2. 🔄 Pairs Trading (ITUB4/BBDC4)
 - **Lógica**: Mean reversion com z-score do spread cointegrado
 - **Parâmetros**: `z_enter=[1.5,2.0,2.5]` e `z_exit=[0.5,1.0]`
 - **Características**: Janela dinâmica, hedge ratio adaptativo, neutralidade de mercado
-- **Assets**: SUZB3.SA / KLBN11.SA
+- **Assets**: ITUB4.SA / BBDC4.SA (Setor Bancário)
 
 ### 3. 📅 Sazonalidade (IBOVESPA)  
 - **Lógica**: Explora padrões mensais baseados em performance histórica
-- **Parâmetros**: `k=[4,6,8]` meses com melhor retorno
+- **Parâmetros**: `k=[2,4,6]` meses com melhor retorno
 - **Características**: Ranking sem look-ahead bias, ciclos anuais completos
-- **Asset**: ^BVSP (2015-2024)
+- **Asset**: ^BVSP (Índice Bovespa)
 
 ## 🔧 Estrutura do Projeto
 
@@ -64,23 +64,34 @@ pq_backtests1/
 └── README.md               # Este arquivo
 ```
 
-## 📈 Métricas de Performance Avançadas
+## 📊 Métricas Acadêmicas Robustas (Implementação 2025)
 
-### Métricas Principais
-- **MAR (Modified Annual Return)**: CAGR / Max Drawdown - relação retorno/risco
-- **PSR (Probabilistic Sharpe Ratio)**: Confiança estatística do Sharpe Ratio (0-100%)
-- **DSR (Deflated Sharpe Ratio)**: Sharpe ajustado para múltiplos testes
+### 🎯 Métricas Principais Robustas
+- **Weighted Sharpe Ratio ± SE**: Média ponderada por split com erro padrão e p-value
+- **Compound Sharpe Ratio**: Média geométrica mais robusta a outliers
+- **Newey-West Sharpe**: Corrigido para autocorrelação temporal (HAC)
+- **Deflated Sharpe (DSR) ± SE**: Penaliza múltiplos testes com significância estatística
+- **Adjusted Information Ratio**: Calculado por split, depois agregado
+- **Deflated Information Ratio (DIR)**: IR × √DSR - penaliza baixa significância
 
-### Métricas Auxiliares
-- **Sharpe Ratio**: Retorno anual ajustado ao risco (√252)
-- **CAGR**: Retorno anual composto geométrico  
-- **Max Drawdown**: Perda máxima de pico a vale
-- **Número de Trades**: Validação de robustez estatística
+### 🔬 Metodologia Anti-Viés
+- **Média Ponderada**: Evita viés de concatenação simples dos retornos
+- **Teste t**: H₀: métrica = 0 com correção para pesos desiguais (Cochran 1977)
+- **Bootstrap CI**: Intervalos de confiança 95% para métricas robustas
+- **HAC Standard Errors**: Correção Newey-West para autocorrelação e heterocedasticidade
 
-### Interpretação dos Resultados
-- **MAR > 1.0**: Estratégia supera drawdown máximo
-- **PSR > 95%**: Alta confiança estatística (recomendado > 95%)
-- **DSR > 95%**: Robustez após correção para data mining
+### 📈 Interpretação Acadêmica
+- **Sharpe ± SE**: *** p<0.001, ** p<0.01, * p<0.05 (significância estatística)
+- **Compound Sharpe**: Mais estável em presença de outliers
+- **Newey-West**: Essencial para estratégias com dependência temporal
+- **DSR ± SE**: Robustez após múltiplos testes (Bailey & Lopez de Prado 2012)
+- **DIR**: Métrica híbrida que combina alpha e significância estatística
+
+### 📚 Fundamentação Teórica
+- **Lo (2002)**: Statistics of Sharpe Ratio - correções para autocorrelação
+- **Bailey & Lopez de Prado (2012)**: Deflated Sharpe Ratio methodology  
+- **Harvey & Liu (2015)**: Multiple testing in finance
+- **Cochran (1977)**: Weighted mean standard errors
 
 ## 🎯 Framework Walk-Forward Robusto
 
@@ -101,15 +112,15 @@ pq_backtests1/
 - Alertas para splits sem trades
 - Tratamento de casos degenerados (σ=0, MDD≈0)
 
-## 📊 Dados e Período de Análise
+## 📊 Dados e Configuração
 
-- **Período**: Janeiro 2015 - Dezembro 2024 (10 anos)
+- **Período**: Janeiro 2000 - Dezembro 2024
 - **Frequência**: Dados diários de fechamento
 - **Fonte**: Yahoo Finance (API gratuita)
 - **Assets**:
-  - ^BVSP: Índice Bovespa (2.479 observações)
-  - SUZB3.SA: Suzano Papel (2.487 observações)  
-  - KLBN11.SA: Klabin Units (2.487 observações)
+  - ^BVSP: Índice Bovespa (momentum e sazonalidade)
+  - ITUB4.SA: Itaú Unibanco PN (pairs trading)  
+  - BBDC4.SA: Bradesco PN (pairs trading)
 
 ## 🛠️ Personalização
 
@@ -118,27 +129,21 @@ Para adicionar novas estratégias:
 2. Adicionar parâmetros em `Config.jl`
 3. Registrar na lista de estratégias em `backtest_otimizado.jl`
 
-## 📄 Exemplo de Saída Atual
+## 📄 Formato de Saída
 
-```
-==================================================
-2️⃣  Executando Estratégia: PAIRS TRADING (Janela Dinâmica)
-==================================================
-📊 Resultados por Split:
-   Split 1 (Período de Teste: 2018-01-02 até 2018-12-28):
-      MAR: 0.423291 | PSR: 0.999765 | DSR: 0.998916 | Dias: 246
-      📊 Parâmetro: Compra quando z-score > 2.5 ou z-score < -2.5, Venda quando |z-score| < 1.0
-   Split 2 (Período de Teste: 2022-01-07 até 2023-01-06):
-      MAR: 2.241309 | PSR: 1.0 | DSR: 1.0 | Dias: 251
-      📊 Parâmetro: Compra quando z-score > 2.0 ou z-score < -2.0, Venda quando |z-score| < 0.5
-   📊 Resultado Geral (média de todos os splits):
-      MAR: 0.408353 | PSR: 0.999997 | DSR: 0.999981
-```
+O framework gera relatórios detalhados com:
 
-### 🏆 Ranking de Performance (2015-2024)
-1. **Pairs Trading**: MAR=0.408, PSR=99.99%, DSR=99.99% ⭐
-2. **Sazonalidade**: MAR=0.675, PSR=100%, DSR=100% 
-3. **Momentum**: MAR=-0.323, PSR=0%, DSR=0%
+- **Resultados por Split**: Performance individual de cada período de teste
+- **Métricas Agregadas**: Sharpe, DSR, Information Ratio com significância estatística
+- **Resumo Comparativo**: Tabela comparando todas as estratégias
+- **Parâmetros Utilizados**: Configurações otimizadas para cada período
+
+### Exemplo de Métricas Geradas
+- **Sharpe Ratio** com erro padrão e p-value
+- **Deflated Sharpe Ratio (DSR)** para penalizar múltiplos testes
+- **Newey-West Sharpe** corrigido para autocorrelação
+- **Information Ratio** vs benchmark apropriado
+- **Deflated Information Ratio (DIR)** combinando alpha e significância
 
 ## 🤝 Contribuições
 
