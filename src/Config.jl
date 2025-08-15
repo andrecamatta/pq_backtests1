@@ -7,7 +7,7 @@ module Config
         test_months::Int  = 12
         embargo_days::Int = 5          
         label_horizon_days::Int = 0    
-        rf_annual::Float64 = 0.0       
+        rf_annual::Float64 = 0.0       # Sem risk-free, foco em alpha vs benchmark
         trading_days::Int = 252
         commission::Float64 = 0.0005   
         slippage::Float64  = 0.0005    

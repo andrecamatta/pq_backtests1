@@ -22,7 +22,8 @@ using .Core
 # Config
 export WFOConfig, MomentumConfig, PairsConfig, SeasonalityConfig
 # Metrics
-export sharpe, max_drawdown, cagr, mar, psr, dsr
+export sharpe, max_drawdown, cagr, mar, psr, dsr,
+       weighted_mean_metric, bootstrap_ci, compound_sharpe, newey_west_sharpe
 # Costs
 export net_returns
 # Split
@@ -30,7 +31,7 @@ export walk_forward_splits
 # Data
 export load_real_data, prepare_single_asset, prepare_pair
 # Strategies
-export Strategy, MomentumTS, PairsCoint, Seasonality
+export Strategy, MomentumTS, PairsCoint, Seasonality, month_names
 # Core
 export RunResult, run_wfo, summarize_result
 
